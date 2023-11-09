@@ -59,3 +59,58 @@ float Scalar(float vect1[N], float vect2[N]){
 		suma += vect1[i]*vect2[i]; // Es multiplica el valor a vect1[i] per el valor a vect2[i] i es fa un sumatori de tots els valors.
 	}
 	return suma; // Retorna el resultat del sumatori
+float Magnitude(float vect(N)){
+	int result,i;
+	for (i = 0; i < N; i++){
+		result += vect[i] * vect[i]
+		}
+	result = sqrt(result)
+	return result
+       }
+int Ortogonal(float vect1[N],float vect2[N]){
+	if Scalar(vect1,vect2) == 0{
+		return 1;
+	}
+	else{
+		return 0;
+		}
+	}
+void Projection(float vect1[N],float vect2[N],float vectres[N]){
+	float ScalarV, result;
+	ScalarV = Scalar(vect1,vect2) / fabs(vect2);  //fabs es un comando de c para el valor absoluto de un vector
+	result = MultEscalar(vect2,vectres,ScalarV);
+}
+
+float infininorm(float M[N][N]){
+	int i,j;// Declarem les variables "i" i j com a int.
+	float max=0.0,suma; // Declarem les variables max i sum com a float, inicialitzant també max a 0.0.
+	for (i = 0; i < N; i++){
+		for (i = 0; i < N; i++){
+			suma += fabs(M[i][j]);
+		}
+		if (suma > max){ // La suma d'aquella fila és el nou máxim.
+		max=suma;
+		}
+		
+	}
+	return max;
+}
+float Onenorm(float M[N][N]){
+	float max = 0.0, sum; 
+	int i, j; 
+	for (j = 0; j < N; j++){
+		sum = 0.0;
+		for (i = 0; i < N-1; i++){
+			sum += fabs(M[i][j]); 
+		}
+		if (sum > max){ 
+		max = sum; // La suma d'aquella columna és el nou máxim.
+		}
+	}
+	return max; 
+}
+//La diferencia amb el infininorm es el ordre dels fors, aixi un recorreix las columnes i el altre les files
+float NormFrobenius(float M[N][N]){
+	int i;
+	
+}
