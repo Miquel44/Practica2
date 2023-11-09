@@ -111,6 +111,33 @@ float Onenorm(float M[N][N]){
 }
 //La diferencia amb el infininorm es el ordre dels fors, aixi un recorreix las columnes i el altre les files
 float NormFrobenius(float M[N][N]){
-	int i;
-	
+	float sum; // Declarem la variable sum com a float.
+	int i, j; // Declarem les variables "i" i j com a int.
+	for (i = 0; i < N; i++){
+		for (j = 0; j < N-1; j++){
+			sum += M[i][j] * M[i][j]; // Es fa un sumatori de cada valor de la matriu elavat al quadrat.
+		}
+	}
+	float arrel = sqrt(sum); // Declarem la variable arrel com a float i la igualem a l'arrel quadrada del sumatori anterior.
+	return arrel; // Retornem el valor que hi ha a arrel.
+}
+
+int DiagonalDom(float M[N][N]){
+	float ediag, sum_no_diag; // Declarem les variables ediag(Element de la diagonal) i sum_no_diag(suma elements que no son de la diagonal).
+	int i, j; // Declarem les variables "i" i j com a int.
+	for (i = 0; i < N; i++){
+		for (j = 0; j < N; j++){
+			if (i == j){
+				ediag = fabs(M[i][j]); // S'iguala a ediag el valor del element de la diagonal de la fila i.
+			}
+			else{
+				sum_no_diag += fabs(M[i][j]); // Es sumen tots els valors que no son de la diagonal a la variable sum_no_diag.
+			}
+		}
+		if (ediag < sum_no_diag){ // Si el valor de la diagonal és més petit que la suma de tots els altres valors de la fila.
+			return 0; // Retorna 0 (False)
+		} // Només cal que una fila compleixi la condició per fer que la matriu no sigui diagonal dominant.
+
+	}
+	return 1; // Retorna 1 (True)
 }
