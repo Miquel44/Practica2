@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
 // Definim N = 512.
 #define N 512
 // Declarem les Matrius.
@@ -12,7 +13,7 @@ float V1[N], V2[N], V3[N], V4[N];
 // Inicialització Matrius i Vectors.
 void InitData(){
     int i,j;
-    srand(8824553);
+    srand(4422543);
     for( i = 0; i < N; i++ )
         for( j = 0; j < N; j++ ){
             Mat[i][j]=(((i*j)%3)?-1:1)*(100.0*(rand()/(1.0*RAND_MAX)));
@@ -133,6 +134,7 @@ int DiagonalDom(float M[N][N]){
     float ediag, sum_no_diag; // Declarem les variables ediag(Element de la diagonal) i sum_no_diag(suma elements que no son de la diagonal).
     int i, j; // Declarem les variables "i" i j com a int.
     for (i = 0; i < N; i++){
+    	sum_no_diag = 0.0;
         for (j = 0; j < N; j++){
             if (i == j){
                 ediag = fabs(M[i][j]); // S'iguala a ediag el valor del element de la diagonal de la fila i.
@@ -147,6 +149,61 @@ int DiagonalDom(float M[N][N]){
 
     }
     return 1; // Retorna 1 (True)
+}
+int Jacobi( float M[N][N] , float vect[N], float vectres[N], unsigned iter ) {
+  // Declarar variables locales
+  float x[N]; // Vector de soluciones aproximadas
+  float error; // Error entre dos soluciones consecutivas
+  float sum; // Suma parcial de los productos de los elementos de la matriz y el vector
+  int i, j, k; // Indices para recorrer la matriz y el vector
+  int converge = 1; // Indicador de convergencia
+  if (DiagonalDom(M) == 0) {
+      printf("La matriu Mat no és diagonal dominant. No es pot aplicar Jacobi.\n");
+      return 0;
+      exit(0);
+  }
+  // Inicializar el vector de soluciones con ceros
+  for (i = 0; i < N; i++) {
+    x[i] = 0;
+  }
+
+
+  for (k = 0; k < iter; k++) {
+
+    for (i = 0; i < N; i++) {
+      sum = 0;
+      for (j = 0; j < N; j++) {
+        if (i != j) {
+          sum += M[i][j] * x[j];
+        }
+      }
+      vectres[i] = (vect[i] - sum) / M[i][i];
+    }
+
+
+    error = 0;
+    for (i = 0; i < N; i++) {
+      error += fabs(vectres[i] - x[i]);
+    }
+
+
+    if (error < 0.0001) {
+      break;
+    }
+
+
+    for (i = 0; i < N; i++) {
+      x[i] = vectres[i];
+    }
+  }
+
+
+  if (k == iter) {
+    converge = 0;
+  }
+
+
+  return converge;
 }
 
 int main(){
@@ -222,4 +279,13 @@ int main(){
     Projection(V1, V2, V4);
     printf("Projecció del V1 sobre V2 (10 primers):\n");
     PrintVect(V4, 0, 10);
-}
+    // J
+    Jacobi(MatDD,V3,V4,1);
+    printf("Els elements 0 a 9 de la solució (1 iter) del sistema d'equacions són:\n");
+    PrintVect(V4, 0, 9);
+    Jacobi(MatDD,V3,V4,1000);
+    printf("Els elements 0 a 9 de la solució (1000 iter) del sistema d'equacions són:\n");
+    PrintVect(V4, 0, 9);
+    Jacobi(Mat,V3,V4,1);
+
+    }
