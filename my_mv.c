@@ -23,9 +23,12 @@ void main(){
         ssize_t n = read(fd,fitxer,100000); // Llegim el fitxer i emmagatzem el contingut a fitxer
 
         write(desc, fitxer, n);
+        close(fd)
+        unlink(nom_fitxer); 
     }
-    unlink(nom_fitxer2);
+    }
+    if (desc != -1) {
+        close(desc); // Tanquem la direccio
+    }
 
-    close(fd); // Tanquem el fitxer.
-    close(desc); // Tanquem el fitxer.
 }
