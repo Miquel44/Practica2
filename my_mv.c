@@ -24,7 +24,7 @@ void main(){
 
         write(desc, fitxer, n);
     }
-    unlink fd;
+    unlink(nom_fitxer2);
 
     close(fd); // Tanquem el fitxer.
     close(desc); // Tanquem el fitxer.
